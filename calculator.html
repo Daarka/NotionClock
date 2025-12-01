@@ -1,0 +1,469 @@
+<html lang="en" style="--bg-color: #121212; --calc-bg: #1e1e1e; --calc-border: #333; --display-bg: #252525; --display-border: #444; --prev-op-color: #a0d468; --current-op-color: #e6e9ed; --btn-text-color: #e6e9ed; --btn-shadow: #111; --btn-bg: #2f2f2f; --digit-bg: #3a3a3a; --operator-bg: #4a4a4a; --operator-color: #ffcc5c; --clear-bg: #ed5565; --equals-bg: #48cfad; --equals-color: #1a1a1a; --delete-bg: #ed5565; --delete-color: #fff; --ac-bg: #ff4d4f; --ac-color: #fff;" data-__embeded-gyazo-content-j-s="5.15.1" data-__gyazo-expander-enabled="true"><head>
+    <meta charset="UTF-8">
+    <title>Dark Calculator</title>
+    <meta name="viewport" content="width=290, initial-scale=1.0">
+    <style>
+        html, body {
+            box-sizing: border-box;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+      background: none;
+           
+        }
+
+        .calculator-container {
+            width: 260px;
+            background: var(--calc-bg, #1e1e1e);
+            border-radius: 10px;
+        
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--calc-border, #333);
+
+        }
+
+        button, .buttons {
+            -webkit-app-region: no-drag;
+        }
+
+        .calculator-content {
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .display {
+    background: var(--display-bg, #252525);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: right;
+    border: 1px solid var(--display-border, #444);
+    min-height: 60px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    font-family: "Segoe UI", "Arial", sans-serif;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.previous-operand {
+    color: var(--prev-op-color, #a0d468);
+    font-size: 14px;
+    min-height: 16px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.current-operand {
+    color: var(--current-op-color, #e6e9ed);
+    font-size: 28px;
+    min-height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        button {
+            border: none;
+            border-radius: 5px;
+            padding: 12px 0;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--btn-text-color, #e6e9ed);
+            background: var(--btn-bg, #2f2f2f);
+            box-shadow: 0 2px 0 var(--btn-shadow, #111);
+            transition: background 0.1s;
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: none;
+            
+        }
+        .digit {
+            background: var(--digit-bg, #3a3a3a);
+        }
+        .operator {
+            background: var(--operator-bg, #4a4a4a);
+            color: var(--operator-color, #ffcc5c);
+        }
+        .clear {
+            background: var(--clear-bg, #ed5565) !important;
+        }
+        .equals {
+            background: var(--equals-bg, #48cfad);
+            color: var(--equals-color, #1a1a1a);
+        }
+        .delete {
+            background: var(--delete-bg, #ff9900);
+            color: var(--delete-color, #fff);
+        }
+        .ac {
+            background: var(--ac-bg, #ff4d4f) !important;
+            color: var(--ac-color, #fff) !important;
+            transition: background 0.2s;
+        }
+        .span-2 {
+            grid-column: span 2;
+        }
+        
+    </style>
+<style type="text/css" id="operaUserStyle"></style><style type="text/css"></style><style type="text/css" id="tts-styles">[data-tts-block-id].tts-active {background: rgba(206, 225, 255, 0.9) !important;} [data-tts-sentence-id].tts-active {background: rgba(0, 89, 191, 0.7) !important;}</style></head>
+<body>
+    
+    <div class="calculator-container">
+        <div class="calculator-content">
+            <div class="display" id="display">
+                <div class="previous-operand" id="previous-operand"></div>
+                <div class="current-operand" id="current-operand">0</div>
+            </div>
+            <div class="buttons">
+                <button class="clear ac" id="clear-btn" onmousedown="startColorCycle()" onmouseup="stopColorCycle()" onmouseleave="stopColorCycle()" ontouchstart="startColorCycle()" ontouchend="stopColorCycle()" ontouchcancel="stopColorCycle()" onclick="clearAll()">
+                    AC
+                </button>
+                <button class="delete" onclick="deleteLast()">DEL</button>
+                <button class="operator" onclick="applyPercentage()">%</button>
+                <button class="operator" onclick="appendOperator('/')">/</button>
+                <button class="digit" onclick="appendNumber('7')">7</button>
+                <button class="digit" onclick="appendNumber('8')">8</button>
+                <button class="digit" onclick="appendNumber('9')">9</button>
+                <button class="operator" onclick="appendOperator('*')">×</button>
+                <button class="digit" onclick="appendNumber('4')">4</button>
+                <button class="digit" onclick="appendNumber('5')">5</button>
+                <button class="digit" onclick="appendNumber('6')">6</button>
+                <button class="operator" onclick="appendOperator('-')">-</button>
+                <button class="digit" onclick="appendNumber('1')">1</button>
+                <button class="digit" onclick="appendNumber('2')">2</button>
+                <button class="digit" onclick="appendNumber('3')">3</button>
+                <button class="operator" onclick="appendOperator('+')">+</button>
+                <button class="digit span-2" onclick="appendNumber('0')">0</button>
+                <button class="digit" onclick="appendNumber('.')">.</button>
+                <button class="equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+    </div>
+    <script>
+      
+
+        // Info button functionality
+        document.addEventListener('dblclick', (e) => {
+            if (e.target.classList.contains('display') || e.target.closest('.display')) {
+                alert("Dark Calculator Widget v1.0\n\nFeatures:\n• Live calculation preview\n• Percentage calculations (30%10 = 3)\n• Multiple themes (click 🎨 or hold AC)\n• Full keyboard support\n\nCreated for Notion widget use");
+            }
+        });
+
+        // Save theme preference when page unloads
+        window.addEventListener("beforeunload", () => {
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("themeIndex", currentThemeIndex);
+            }
+        });
+
+        let expression = "";
+        let shouldResetOnNextInput = false;
+        let colorCycleInterval;
+        let currentThemeIndex = 0;
+
+        // Load theme preference on startup
+        if (typeof(Storage) !== "undefined") {
+            const savedTheme = localStorage.getItem("themeIndex");
+            if (savedTheme !== null) {
+                currentThemeIndex = parseInt(savedTheme) || 0;
+            }
+        }
+
+        const currentOperandElement = document.getElementById("current-operand");
+        const previousOperandElement = document.getElementById("previous-operand");
+
+        const themes = [{
+                "--bg-color": "#121212",
+                "--calc-bg": "#1e1e1e",
+                "--calc-border": "#333",
+                "--display-bg": "#252525",
+                "--display-border": "#444",
+                "--prev-op-color": "#a0d468",
+                "--current-op-color": "#e6e9ed",
+                "--btn-text-color": "#e6e9ed",
+                "--btn-shadow": "#111",
+                "--btn-bg": "#2f2f2f",
+                "--digit-bg": "#3a3a3a",
+                "--operator-bg": "#4a4a4a",
+                "--operator-color": "#ffcc5c",
+                "--clear-bg": "#ed5565",
+                "--equals-bg": "#48cfad",
+                "--equals-color": "#1a1a1a",
+                "--delete-bg": "#ed5565",
+                "--delete-color": "#fff",
+                "--ac-bg": "#ff4d4f",
+                "--ac-color": "#fff",
+            },
+            //Blue Steel
+            //{
+            //   "--bg-color": "#001f3f",
+            //    "--calc-bg": "#003366",
+            //    "--calc-border": "#004080",
+            //    "--display-bg": "#004d99",
+            //    "--display-border": "#0059b3",
+            //    "--prev-op-color": "#7fdbff",
+            //    "--current-op-color": "#ffffff",
+            //    "--btn-text-color": "#ffffff",
+            //    "--btn-shadow": "#001f3f",
+            //    "--btn-bg": "#0074d9",
+            //    "--digit-bg": "#3399ff",
+            //    "--operator-bg": "#00bfff",
+            //    "--operator-color": "#001f3f",
+            //    "--clear-bg": "#0074d9",
+            //    "--equals-bg": "#00ffff",
+            //    "--equals-color": "#003366",
+            //    "--delete-bg": "#0074d9",
+            //    "--delete-color": "#fff",
+            //    "--ac-bg": "#00bfff",
+            //    "--ac-color": "#001f3f",
+            //},
+           ];
+
+        function updateDisplay() {
+            if (!expression) {
+                currentOperandElement.innerText = "0";
+                previousOperandElement.innerText = "";
+                return;
+            }
+
+            // Show the expression in the main display
+            currentOperandElement.innerText = expression;
+            
+            // Show preview for expressions with operators
+            if (hasCompleteOperation(expression)) {
+                let previewExpression = expression;
+                
+                // If ends with operator, evaluate up to that point
+                if (/[+\-*/×%]$/.test(expression)) {
+                    // Special case for standalone percentage (like "30%")
+                    if (expression.endsWith('%')) {
+                        const result = evaluateExpression(expression);
+                        if (result !== null && result !== undefined && !isNaN(result)) {
+                            previousOperandElement.innerText = "= " + formatNumber(result);
+                        } else {
+                            previousOperandElement.innerText = "";
+                        }
+                        return;
+                    } else {
+                        previewExpression = expression.slice(0, -1);
+                    }
+                }
+                
+                const result = evaluateExpression(previewExpression);
+                if (result !== null && result !== undefined && !isNaN(result)) {
+                    previousOperandElement.innerText = "= " + formatNumber(result);
+                } else {
+                    previousOperandElement.innerText = "";
+                }
+            } else {
+                previousOperandElement.innerText = "";
+            }
+        }
+
+        function hasCompleteOperation(expr) {
+            // Check if expression has at least one operator and at least one number before it
+            const operatorRegex = /[+\-*/×%]/;
+            const hasOperator = operatorRegex.test(expr);
+            const parts = expr.split(operatorRegex);
+            
+            // If ends with operator (like "500×" or "30%"), show preview of current state
+            if (/[+\-*/×%]$/.test(expr)) {
+                return parts.length >= 2 && parts[0].trim() !== "";
+            }
+            
+            // If has complete operation with numbers on both sides
+            return hasOperator && parts.length >= 2 && parts[0].trim() !== "" && parts[parts.length - 1].trim() !== "";
+        }
+
+        function evaluateExpression(expr) {
+            try {
+                // Handle percentage calculations
+                let evalExpr = expr.replace(/×/g, '*');
+                
+                // Handle percentage operations like 30%10 (30% of 10)
+                evalExpr = evalExpr.replace(/(\d*\.?\d+)%(\d*\.?\d+)/g, (match, p1, p2) => {
+                    return `(${p1} / 100 * ${p2})`;
+                });
+                
+                // Handle standalone percentages like 30%
+                evalExpr = evalExpr.replace(/(\d*\.?\d+)%/g, (match, p1) => {
+                    return `(${p1} / 100)`;
+                });
+                
+                // Check if the expression ends with an operator (but not % since % can be standalone)
+                if (/[+\-*/]$/.test(evalExpr)) {
+                    return null;
+                }
+                
+                // Evaluate the expression
+                const result = Function('"use strict"; return (' + evalExpr + ')')();
+                return isFinite(result) ? result : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function formatNumber(num) {
+            if (num === 0) return "0";
+            if (Math.abs(num) < 0.000001) return num.toExponential(2);
+            if (Math.abs(num) > 999999999) return num.toExponential(2);
+            
+            // Remove trailing zeros
+            return parseFloat(num.toPrecision(12)).toString();
+        }
+
+        function appendNumber(num) {
+            if (shouldResetOnNextInput) {
+                expression = "";
+                shouldResetOnNextInput = false;
+            }
+
+            // If expression is empty or last char is operator, just add the number
+            if (!expression || /[+\-*/×]$/.test(expression)) {
+                expression += num;
+            } else {
+                // Check if we're adding a decimal point
+                if (num === ".") {
+                    const parts = expression.split(/[+\-*/×]/);
+                    const lastNumber = parts[parts.length - 1];
+                    if (lastNumber.includes(".")) return; // Already has decimal
+                }
+                expression += num;
+            }
+            
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (shouldResetOnNextInput) {
+                shouldResetOnNextInput = false;
+            }
+
+            if (!expression) {
+                if (op === "-") {
+                    expression = "-";
+                }
+                updateDisplay();
+                return;
+            }
+
+            // Replace × with × for display
+            const displayOp = op === "*" ? "×" : op;
+
+            // If last character is already an operator, replace it
+            if (/[+\-*/×]$/.test(expression)) {
+                expression = expression.slice(0, -1) + displayOp;
+            } else {
+                expression += displayOp;
+            }
+            
+            updateDisplay();
+        }
+
+        function calculate() {
+            if (!expression) return;
+
+            const result = evaluateExpression(expression);
+            if (result !== null && result !== undefined && !isNaN(result)) {
+                expression = formatNumber(result);
+                shouldResetOnNextInput = true;
+                // Show the result without preview
+                currentOperandElement.innerText = expression;
+                previousOperandElement.innerText = "";
+            }
+        }
+
+        function clearAll() {
+            expression = "";
+            shouldResetOnNextInput = false;
+            updateDisplay();
+        }
+
+        function applyPercentage() {
+            if (!expression) return;
+            
+            // Simply append % to the expression, don't calculate yet
+            expression += "%";
+            updateDisplay();
+        }
+
+        function deleteLast() {
+            if (shouldResetOnNextInput) {
+                clearAll();
+                return;
+            }
+            
+            if (expression) {
+                expression = expression.slice(0, -1);
+                updateDisplay();
+            }
+        }
+
+        function startColorCycle() {
+            if (colorCycleInterval) return;
+            colorCycleInterval = setInterval(cycleTheme, 700);
+        }
+
+        function stopColorCycle() {
+            clearInterval(colorCycleInterval);
+            colorCycleInterval = null;
+        }
+
+        function cycleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            // Save theme preference immediately
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("themeIndex", currentThemeIndex);
+            }
+            applyTheme(themes[currentThemeIndex]);
+        }
+
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            for (const [key, value] of Object.entries(theme)) {
+                root.style.setProperty(key, value);
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener("keydown", (e) => {
+            e.preventDefault(); // Prevent default browser behavior
+            
+            if (e.key >= "0" && e.key <= "9") {
+                appendNumber(e.key);
+            } else if (e.key === ".") {
+                appendNumber(".");
+            } else if (["+", "-"].includes(e.key)) {
+                appendOperator(e.key);
+            } else if (e.key === "*") {
+                appendOperator("*");
+            } else if (e.key === "/") {
+                appendOperator("/");
+            } else if (e.key === "%") {
+                applyPercentage();
+            } else if (e.key === "Enter" || e.key === "=") {
+                calculate();
+            } else if (e.key === "Escape") {
+                clearAll();
+            } else if (e.key === "Backspace") {
+                deleteLast();
+            }
+        });
+
+        // Initialize
+        updateDisplay();
+        applyTheme(themes[currentThemeIndex]);
+    </script>
+<script defer="" src="calcscript.js" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;21b8d9d8467d4e02ab7f2f6df3695b74&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous" style="display: none !important;"></script>
+
+
+</body></html>

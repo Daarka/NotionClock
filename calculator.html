@@ -1,4 +1,4 @@
-<html lang="en" style="--bg-color: #121212; --calc-bg: #1e1e1e; --calc-border: #333; --display-bg: #252525; --display-border: #444; --prev-op-color: #a0d468; --current-op-color: #e6e9ed; --btn-text-color: #e6e9ed; --btn-shadow: #111; --btn-bg: #2f2f2f; --digit-bg: #3a3a3a; --operator-bg: #4a4a4a; --operator-color: #ffcc5c; --clear-bg: #ed5565; --equals-bg: #48cfad; --equals-color: #1a1a1a; --delete-bg: #ed5565; --delete-color: #fff; --ac-bg: #ff4d4f; --ac-color: #fff;" data-__embeded-gyazo-content-j-s="5.15.1" data-__gyazo-expander-enabled="true"><head>
+<html lang="en" style="--bg-color: #121212; --calc-bg: #1e1e1e; --calc-border: #333; --display-bg: #252525; --display-border: #444; --prev-op-color: #ce867d; --current-op-color: #e6e9ed; --btn-text-color: #e6e9ed; --btn-shadow: #111; --btn-bg: #2f2f2f; --digit-bg: #3a3a3a; --operator-bg: #4a4a4a; --operator-color: #d6a89b; --clear-bg: #c06c74; --equals-bg: #ad7976; --equals-color: #1a1a1a; --delete-bg: #c06c74; --delete-color: #fff; --ac-bg: #c06c74; --ac-color: #fff;" data-__embeded-gyazo-content-j-s="5.15.1" data-__gyazo-expander-enabled="true"><head>
     <meta charset="UTF-8">
     <title>Dark Calculator</title>
     <meta name="viewport" content="width=290, initial-scale=1.0">
@@ -14,7 +14,7 @@
         }
 
         .calculator-container {
-            width: 260px;
+            width: 150px;
             background: var(--calc-bg, #1e1e1e);
             border-radius: 10px;
         
@@ -28,18 +28,18 @@
         }
 
         .calculator-content {
-            padding: 15px;
+            padding: 10px;
             box-sizing: border-box;
         }
 
         .display {
     background: var(--display-bg, #252525);
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 6px;
+    margin-bottom: 8px;
     border-radius: 5px;
     text-align: right;
     border: 1px solid var(--display-border, #444);
-    min-height: 60px;
+    min-height: 30px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
     font-family: "Segoe UI", "Arial", sans-serif;
     font-weight: 500;
@@ -48,32 +48,32 @@
 }
 
 .previous-operand {
-    color: var(--prev-op-color, #a0d468);
+    color: var(--prev-op-color, #ce867d);
     font-size: 14px;
-    min-height: 16px;
-    margin-bottom: 10px;
-    line-height: 1.2;
+    min-height: 14px;
+    margin-bottom: 0px;
+    line-height: 1;
 }
 
 .current-operand {
     color: var(--current-op-color, #e6e9ed);
-    font-size: 28px;
-    min-height: 32px;
+    font-size: 16px;
+    min-height: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.2;
+    line-height: 1;
     font-variant-numeric: tabular-nums;
 }
         
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            gap: 3px;
         }
         button {
             border: none;
-            border-radius: 5px;
-            padding: 12px 0;
+            border-radius: 7px;
+            padding: 0px 0;
             font-size: 16px;
             cursor: pointer;
             color: var(--btn-text-color, #e6e9ed);
@@ -91,23 +91,25 @@
         }
         .operator {
             background: var(--operator-bg, #4a4a4a);
-            color: var(--operator-color, #ffcc5c);
+            color: var(--operator-color, #d6a89b);
         }
         .clear {
-            background: var(--clear-bg, #ed5565) !important;
+            background: var(--clear-bg, #c06c74) !important;
         }
         .equals {
-            background: var(--equals-bg, #48cfad);
+            background: var(--equals-bg, #ad7976);
             color: var(--equals-color, #1a1a1a);
         }
         .delete {
             background: var(--delete-bg, #ff9900);
             color: var(--delete-color, #fff);
+            font-size: 14;
         }
         .ac {
-            background: var(--ac-bg, #ff4d4f) !important;
+            background: var(--ac-bg, #c06c74) !important;
             color: var(--ac-color, #fff) !important;
             transition: background 0.2s;
+            font-size: 14;
         }
         .span-2 {
             grid-column: span 2;
@@ -187,20 +189,20 @@
                 "--calc-border": "#333",
                 "--display-bg": "#252525",
                 "--display-border": "#444",
-                "--prev-op-color": "#a0d468",
+                "--prev-op-color": "#ce867d",
                 "--current-op-color": "#e6e9ed",
                 "--btn-text-color": "#e6e9ed",
                 "--btn-shadow": "#111",
                 "--btn-bg": "#2f2f2f",
                 "--digit-bg": "#3a3a3a",
                 "--operator-bg": "#4a4a4a",
-                "--operator-color": "#ffcc5c",
-                "--clear-bg": "#ed5565",
-                "--equals-bg": "#48cfad",
+                "--operator-color": "#d6a89b",
+                "--clear-bg": "#c06c74",
+                "--equals-bg": "#ad7976",
                 "--equals-color": "#1a1a1a",
-                "--delete-bg": "#ed5565",
+                "--delete-bg": "#c06c74",
                 "--delete-color": "#fff",
-                "--ac-bg": "#ff4d4f",
+                "--ac-bg": "#c06c74",
                 "--ac-color": "#fff",
             },
             //Blue Steel

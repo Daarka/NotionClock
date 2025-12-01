@@ -1,0 +1,182 @@
+<html lang="en" data-__embeded-gyazo-content-j-s="5.15.1" data-__gyazo-expander-enabled="true"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock with Themes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #1a1a1a;
+      margin: 20px;
+    }
+
+    .clock-container {
+      width: 200px;
+      height: 80px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .clock-container:hover {
+      transform: scale(1.02);
+    }
+
+    .time {
+      font-size: 2.1rem;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .date {
+      font-size: 1rem;
+      font-weight: 400;
+      transition: all 0.3s ease;
+    }
+
+    /* Built-in themes */
+    .theme-dark        { background: #111; }
+    .theme-dark .time  { color: #fff; text-shadow: 0 0 5px rgba(255, 0, 0, 0.3); }
+    .theme-dark .date  { color: #888; }
+
+    .theme-light       { background: #fff; border: 1px solid #ddd; }
+    .theme-light .time { color: #333; }
+    .theme-light .date { color: #666; }
+
+    .theme-pink        { background: linear-gradient(135deg, #ff9a9e, #fecfef); border: 1px solid #ff69b4; }
+    .theme-pink .time  { color: #8b0040; text-shadow: 0 0 8px rgba(255, 105, 180, 0.4); }
+    .theme-pink .date  { color: #c73e7e; }
+
+    .theme-retro       { background: #2d1b00; border: 2px solid #ff8c00; box-shadow: 0 0 15px rgba(255, 140, 0, 0.3); }
+    .theme-retro .time { color: #ffaa00; text-shadow: 0 0 10px rgba(255, 170, 0, 0.8); }
+    .theme-retro .date { color: #cc7700; }
+
+    .theme-hacker      { background: #000; border: 1px solid #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
+    .theme-hacker .time{ color: #ff0000; text-shadow: 0 0 10px rgba(255, 0, 0, 0.8); }
+    .theme-hacker .date{ color: #cc0000; }
+
+    /* 🌊 Ocean Theme */
+    .theme-ocean       { background: linear-gradient(to right, #004e92, #000428); }
+    .theme-ocean .time { color: #00d9ff; text-shadow: 0 0 8px #00d9ff; }
+    .theme-ocean .date { color: #a0c8ff; }
+
+    /* 🌲 Forest Theme */
+    .theme-forest       { background: linear-gradient(to right, #134e4a, #0f3d2e); }
+    .theme-forest .time { color: #b9fbc0; text-shadow: 0 0 8px #b9fbc0; }
+    .theme-forest .date { color: #94d2bd; }
+
+    /* 🌇 Sunset Theme */
+    .theme-sunset       { background: linear-gradient(to right, #ff758c, #ff7eb3); }
+    .theme-sunset .time { color: #fff5cc; text-shadow: 0 0 6px #ffe2a7; }
+    .theme-sunset .date { color: #ffd6e0; }
+
+    /* ❄️ Ice Theme */
+    .theme-ice          { background: linear-gradient(to right, #e0f7fa, #b2ebf2); }
+    .theme-ice .time    { color: #00796b; text-shadow: 0 0 4px #4dd0e1; }
+    .theme-ice .date    { color: #004d40; }
+
+    /* 💜 Cyberpunk Theme */
+    .theme-cyberpunk       { background: linear-gradient(135deg, #2a003f, #ff0080); }
+    .theme-cyberpunk .time { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+    .theme-cyberpunk .date { color: #ffaaff; }
+ </style>
+<style type="text/css" id="operaUserStyle"></style><style type="text/css"></style><style type="text/css" id="tts-styles">[data-tts-block-id].tts-active {background: rgba(206, 225, 255, 0.9) !important;} [data-tts-sentence-id].tts-active {background: rgba(0, 89, 191, 0.7) !important;}</style></head>
+<body>
+  <div class="clock-container theme-dark" id="clock"><!-- onclick="changeTheme()" -->
+    <div class="time" id="time">13:17 <span class="pm">PM</span></div>
+    <div class="date" id="date">MON, DEC 1</div>
+  </div>
+
+  <script>
+    const themes = [
+      { name: 'dark' },
+      { name: 'light' },
+      { name: 'pink' },
+      { name: 'retro' },
+      { name: 'hacker' },
+      { name: 'ocean' },
+      { name: 'forest' },
+      { name: 'sunset' },
+      { name: 'ice' },
+      { name: 'cyberpunk' }
+    ];
+
+    let currentThemeIndex = 0;
+
+    function loadThemePreference() {
+      try {
+        const saved = localStorage.getItem('clockTheme');
+        if (saved !== null) {
+          currentThemeIndex = parseInt(saved);
+        }
+      } catch (e) {
+        currentThemeIndex = 0;
+      }
+
+      const currentTheme = themes[currentThemeIndex];
+      const clockElement = document.getElementById('clock');
+      clockElement.className = 'clock-container';
+      clockElement.classList.add(`theme-${currentTheme.name}`);
+    }
+
+    function saveThemePreference() {
+      try {
+        localStorage.setItem('clockTheme', currentThemeIndex.toString());
+      } catch (e) {}
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12 || 12;
+   // const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+   //  const seconds = String(now.getSeconds()).padStart(2, '0');
+      const timeString = `${hours}:${minutes} ${ampm}`; //:${seconds}
+
+
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+      const day = days[now.getDay()];
+      const month = months[now.getMonth()];
+      const date = now.getDate();
+      const dateString = `${day}, ${month} ${date}`;
+
+      document.getElementById('time').textContent = timeString;
+      document.getElementById('date').textContent = dateString;
+    }
+
+    function changeTheme() {
+      const clockElement = document.getElementById('clock');
+      clockElement.className = 'clock-container';
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      const currentTheme = themes[currentThemeIndex];
+      clockElement.classList.add(`theme-${currentTheme.name}`);
+      saveThemePreference();
+      clockElement.style.transform = 'scale(0.95)';
+      setTimeout(() => clockElement.style.transform = 'scale(1)', 100);
+    }
+
+    loadThemePreference();
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;21b8d9d8467d4e02ab7f2f6df3695b74&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous" style="display: none !important;"></script>
+
+
+</body></html>
